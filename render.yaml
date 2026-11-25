@@ -1,9 +1,26 @@
 # Render 部署配置
 services:
   - type: web
-    name: mail-service
+    name: tony-service
     runtime: node
-    buildCommand: npm run build
+    plan: free
+    buildCommand: npm install && npm run build
     startCommand: npm run start
-    env:
-      NODE_VERSION: "22"
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: PORT
+        value: "3000"
+      - key: SMTP_FROM
+        value: "tonywallect <noreply@tonywallect.dpdns.org>"
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: DAILY_SEND_LIMIT
+        value: "100"
+      - key: DAILY_TRACK_LIMIT
+        value: "5000"
+      # 以下两项敏感值，在 Render Dashboard 部署后手动填，不写进仓库
+      - key: SMTP_PASS
+        sync: false
+      - key: DATABASE_URL
+        sync: false
